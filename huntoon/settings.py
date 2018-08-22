@@ -129,6 +129,6 @@ STATIC_URL = '/static/'
 #MEDIA_URL = '/data/'
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
