@@ -31,10 +31,10 @@ urlpatterns = [
     path('download/', download, name='download'),
 ]
 
-handler404 = 'huntoon.views.404'
-handler500 = 'huntoon.views.500'
-handler403 = 'huntoon.views.403'
-handler400 = 'huntoon.views.400'
+handler404 = 'huntoon.views.mypagenotfound'
+handler500 = 'huntoon.views.myservererror'
+handler403 = 'huntoon.views.mypermissiondenied'
+handler400 = 'huntoon.views.mybadrequest'
 
 #if settings.DEBUG:
  #   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

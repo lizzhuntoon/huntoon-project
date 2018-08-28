@@ -84,7 +84,6 @@ def download(request):
     filename = request.GET['file_to_download']
 
     ## use application/octet-stream for content_type vs text/plain
-    ## so the downloaded file won't get opened
     with open(filename, 'rb') as f:
         response = HttpResponse(f.read(), content_type='application/octet-stream')
         response['Content-Disposition'] = 'attachment; filename=' + filename
@@ -137,30 +136,26 @@ def decode(data, key, mode, iv):
 
     #dec_data = unpad(dec_data, block_size, style='pkcs7')
 
-    #dec_data = "This is a decoded text giving you the original"
+    #dec_data = "This is a decoded text giving you the original" #used for testing only
     return dec_data
 
-def handler404(request, *args, **argv):
-    response = render_to_response('404.html', {},
-                                  context_instance=RequestContext(request))
-    response.status_code = 404
-    return response
+def mypagenotfound(request):
+    #response = render_to_response('404.html', context_instance=RequestContext(request))
+    #response.status_code = 404
+    return render(request, '404.html')
 
 
-def handler500(request, *args, **argv):
-    response = render_to_response('500.html', {},
-                                  context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
+def myservererror(request):
+    #response = render_to_response('500.html', context_instance=RequestContext(request))
+    #response.status_code = 500
+    return render(request, '500.html')
 
-def handler403(request, *args, **argv):
-    response = render_to_response('403.html', {},
-                                  context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
+def mypermissiondenied(request):
+    #response = render_to_response('403.html', context_instance=RequestContext(request))
+    #response.status_code = 403
+    return render(request, '403.html')
 
-def handler400(request, *args, **argv):
-    response = render_to_response('400.html', {},
-                                  context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
+def mybadrequest(request):
+    #response = render_to_response('400.html', context_instance=RequestContext(request))
+    #response.status_code = 400
+    return render(request, '400.html')
