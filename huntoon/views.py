@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from Cryptodome.Cipher import AES
 from Cryptodome.Util.Padding import pad, unpad
 from django.core.files.base import ContentFile
+from django.conf import settings
 
 def home(request):
     return render(request, 'home.html')
@@ -21,12 +22,12 @@ def encrypt(request):
         mode = request.POST["mode"]
         key = request.POST["key"]
         iv = request.POST["iv"]
-        block_size = 16
+        #block_size = 16
         myfile = request.FILES[file_tag]
 
         data = myfile.read()
         #print("data type", type(data))
-        data = pad(data, block_size, style='pkcs7')
+        #data = pad(data, block_size, style='pkcs7')
 
         fs = FileSystemStorage()
 
@@ -47,6 +48,7 @@ def encrypt(request):
 
 def decrypt(request):
     file_tag = "file_to_decrypt"
+
     if request.method == 'POST' and request.FILES[file_tag]:
         mode = request.POST["mode"]
         key = request.POST["key"]
@@ -58,7 +60,7 @@ def decrypt(request):
         #print("ciphertext data type", type(data))
         #print(data)
 
-        fs = FileSystemStorage()
+        fs = FileSystemStorage()  #location='/media'??
 
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
@@ -91,11 +93,14 @@ def download(request):
 def encode(data, key, mode, iv) :
     key = key.encode()
     iv = iv.encode()
+    block_size = 16
 
     if mode == 'ecb':
+        data = pad(data, block_size, style='pkcs7')
         encryption_suite = AES.new(key, AES.MODE_ECB)
         enc_data = encryption_suite.encrypt(data)
     elif mode == 'cbc':
+        data = pad(data, block_size, style='pkcs7')
         encryption_suite = AES.new(key, AES.MODE_CBC, iv)
         enc_data = encryption_suite.encrypt(data)
     elif mode == 'cfb':
@@ -117,9 +122,11 @@ def decode(data, key, mode, iv):
     if mode == 'ecb':
         decryption_suite = AES.new(key, AES.MODE_ECB)
         dec_data = decryption_suite.decrypt(data)
+        dec_data = unpad(dec_data, block_size, style='pkcs7')
     elif mode == 'cbc':
         decryption_suite = AES.new(key, AES.MODE_CBC, iv)
         dec_data = decryption_suite.decrypt(data)
+        dec_data = unpad(dec_data, block_size, style='pkcs7')
     elif mode == 'cfb':
         decryption_suite = AES.new(key, AES.MODE_CFB, iv)
         dec_data = decryption_suite.decrypt(data)
@@ -127,7 +134,7 @@ def decode(data, key, mode, iv):
         decryption_suite = AES.new(key, AES.MODE_OFB, iv)
         dec_data = decryption_suite.decrypt(data)
 
-    dec_data = unpad(dec_data, block_size, style='pkcs7')
+    #dec_data = unpad(dec_data, block_size, style='pkcs7')
 
     #dec_data = "This is a decoded text giving you the original"
     return dec_data

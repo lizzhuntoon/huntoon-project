@@ -31,15 +31,17 @@
     </header>
 
     <main role="main">
-    {% if uploaded_file_url %}
-        <h6>File uploaded is {{ uploaded_file_url }}</h6>
-        <h6>File to download is {{  download_file_url }}</h6>
+        <div class="col-md-4">
+            {% if uploaded_file_url %}
+                <br><h6>  File uploaded is {{ uploaded_file_url }}</h6> <br>
+                <h6>  File to download is {{  download_file_url }}</h6>
 
-        <form action="{%  url 'download' %}" >
-          <input type="hidden" name="file_to_download" value= "{{ download_file_url }}">
-          <button type="submit">Download</button>
-        </form>
-    {% endif %}
+                <form action="{%  url 'download' %}" >
+                    <input type="hidden" name="file_to_download" value= "{{ download_file_url }}">
+                    <button type="submit">Download</button>
+                </form>
+            {% endif %}
+        </div>
 
     </main>
 
