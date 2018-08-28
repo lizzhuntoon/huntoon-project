@@ -1,10 +1,11 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.core.files.storage import FileSystemStorage
 from Cryptodome.Cipher import AES
 from Cryptodome.Util.Padding import pad, unpad
 from django.core.files.base import ContentFile
 from django.conf import settings
+from django.template import RequestContext
 
 def home(request):
     return render(request, 'home.html')
@@ -138,3 +139,28 @@ def decode(data, key, mode, iv):
 
     #dec_data = "This is a decoded text giving you the original"
     return dec_data
+
+def handler404(request, *args, **argv):
+    response = render_to_response('404.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render_to_response('500.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
+
+def handler403(request, *args, **argv):
+    response = render_to_response('403.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
+
+def handler400(request, *args, **argv):
+    response = render_to_response('400.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
