@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+
 <html lang="en">
 {%  load staticfiles %}
   <head>
@@ -33,7 +34,11 @@
 
     <main role="main">
         <div class="col-md-4">
-            <h2>There was an error with your encryption/decryption.</h2>
+            <h4>There was an error with your encryption/decryption.</h4><br>
+            <h4>Please try again.</h4><br>
+            <h6>Possible issues:</h6>
+            <h6>Space character in file name</h6>
+            <h6>Key and/or IV do not match between encryption and decryption. </h6>
         </div>
 
     </main>
@@ -53,4 +58,3 @@
 
   </body>
 </html>
-

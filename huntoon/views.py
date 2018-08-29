@@ -140,22 +140,13 @@ def decode(data, key, mode, iv):
     return dec_data
 
 def mypagenotfound(request):
-    #response = render_to_response('404.html', context_instance=RequestContext(request))
-    #response.status_code = 404
-    return render(request, '404.html')
-
+    return render(request, 'error.html')
 
 def myservererror(request):
-    #response = render_to_response('500.html', context_instance=RequestContext(request))
-    #response.status_code = 500
-    return render(request, '500.html')
+    return render(request, 'error.html')
 
 def mypermissiondenied(request):
-    #response = render_to_response('403.html', context_instance=RequestContext(request))
-    #response.status_code = 403
-    return render(request, '403.html')
+    return render(request, 'error.html')
 
 def mybadrequest(request):
-    #response = render_to_response('400.html', context_instance=RequestContext(request))
-    #response.status_code = 400
-    return render(request, '400.html')
+    return render(request, 'error.html')
